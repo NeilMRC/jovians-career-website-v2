@@ -19,6 +19,15 @@ def get_jobs_from_db():
       jobs.append(row._asdict())
     return jobs
 
+def load_job_from_db(id):
+  with engine.connect() as conn:
+    t=text('select * from jobs where jobs.id={}'.format(id))
+    result = conn.execute(t)
+    rows = result.all()
+    if len(rows) == 0:
+      return None
+    else:
+      return rows[0]._asdict()
 
 with engine.connect() as conn:
   result = conn.execute(text("select * from jobs"))
